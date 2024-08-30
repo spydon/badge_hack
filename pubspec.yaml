@@ -1,0 +1,22 @@
+name: badge_hack
+description: A Flutter & Friends 2024 badge hack application.
+publish_to: none
+
+version: 0.0.1
+
+environment:
+  sdk: ^3.5.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_nfc_kit: ^3.5.2
+
+dev_dependencies:
+  flutter_lints: ^4.0.0
+
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
