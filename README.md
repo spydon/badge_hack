@@ -20,10 +20,18 @@ your new friends from Flutter & Friends!
 Choose one of the following packages, or others if you know of one.
 This template is set up with `package:nfc_manager`.
 
-- `package:nfc_manager` [Package](https://pub.dev/package/nfc_manager), [API documentation](https://pub.dev/documentation/nfc_manager)
-- `package:flutter_nfc_kit` [Package](https://pub.dev/package/flutter_nfc_kit), [API documentation](https://pub.dev/documentation/flutter_nfc_kit)
+- `package:nfc_manager`
+  - [Package](https://pub.dev/package/nfc_manager)
+  - [API documentation](https://pub.dev/documentation/nfc_manager)
+  - [Example](https://github.com/okadan/flutter-nfc-manager/blob/master/example/lib/main.dart)
+- `package:flutter_nfc_kit`
+  - [Package](https://pub.dev/package/flutter_nfc_kit)
+  - [API documentation](https://pub.dev/documentation/flutter_nfc_kit)
+  - [Example](https://github.com/nfcim/flutter_nfc_kit/blob/master/example/lib/main.dart)
 
 ### Permissions
+
+NFC reading and writing requires permission setup depending on the platform.
 
 #### Android
 
@@ -34,6 +42,8 @@ Add `android.permission.NFC` to the `app/src/main/AndroidManifest.xml` file:
 ```
 
 #### iOS
+
+iOS 13 or later is required as are the following permissions:
 
 - Add the `com.apple.developer.nfc.readersession.formats` entitlement
   to your entitlements (`/ios/Runner/Runner.entitlements`):
