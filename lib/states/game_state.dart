@@ -29,6 +29,48 @@ class _GameStateState extends State<GameState> {
               child: GameWidget(
                 game: _game,
                 backgroundBuilder: (context) => const Background(),
+                overlayBuilderMap: {
+                  Constants.gameOverOverlayKey: (context, game) {
+                    return Container(
+                      color: Colors.black.withOpacity(0.5),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text(
+                              'Game Over',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                            Text(
+                              'You have a score of ${((game as MainGame).world as MainWorld).score}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                            ElevatedButton(
+                              onPressed: () {
+                                ((game as MainGame).world as MainWorld).reset();
+                              },
+                              child: const Text('Restart'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Exit'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                },
               ))),
     );
   }
