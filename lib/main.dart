@@ -1,3 +1,9 @@
+// Template based on example from package:nfc_manager.
+// You can find the original example at https://github.com/okadan/flutter-nfc-manager/blob/master/example/lib/main.dart.
+// Which is licensed under MIT license found at https://github.com/okadan/flutter-nfc-manager/blob/master/LICENSE.
+
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
@@ -14,21 +20,81 @@ class BadgeHackApp extends StatefulWidget {
 }
 
 class BadgeHackAppState extends State<BadgeHackApp> {
+  ValueNotifier<Object?> result = ValueNotifier(null);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Flutter & Friends Badge Hack')),
         body: SafeArea(
-          child: FutureBuilder<bool>(
-            future: NfcManager.instance.isAvailable(),
-            builder: (context, availableSnapshot) => Center(
-              child: Text('NFC manager availability: '
-                  '${availableSnapshot.data}'),
+          child: Center(
+            child: FutureBuilder<bool>(
+              future: NfcManager.instance.isAvailable(),
+              builder: (context, availableSnapshot) {
+                if (availableSnapshot.data ?? false) {
+                  return const Text('NFC is unavailable or inaccessible. \n'
+                      'Verify you followed the setup instructions in the README.');
+                }
+                return Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: _tagRead,
+                      child: const Text('Read tag'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _ndefWrite,
+                      child: const Text('Write to tag'),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _tagRead() {
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      result.value = tag.data;
+      NfcManager.instance.stopSession();
+    });
+  }
+
+  void _ndefWrite() {
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      final ndef = Ndef.from(tag);
+      if (ndef == null || !ndef.isWritable) {
+        result.value = 'Tag is not ndef writable';
+        NfcManager.instance.stopSession(errorMessage: result.value?.toString());
+        return;
+      }
+
+      final message = NdefMessage([
+        NdefRecord.createText('Hello World!'),
+        NdefRecord.createUri(Uri.https('flutter.dev')),
+        NdefRecord.createMime(
+          'text/plain',
+          Uint8List.fromList('Hello'.codeUnits),
+        ),
+        NdefRecord.createExternal(
+          'com.example',
+          'mytype',
+          Uint8List.fromList('mydata'.codeUnits),
+        ),
+      ]);
+
+      try {
+        await ndef.write(message);
+        result.value = 'Successfully wrote the NDEF message.';
+        NfcManager.instance.stopSession();
+      } catch (e) {
+        result.value = e;
+        NfcManager.instance.stopSession(errorMessage: result.value.toString());
+        return;
+      }
+    });
   }
 }
