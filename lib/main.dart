@@ -17,6 +17,7 @@ class BadgeHackAppState extends State<BadgeHackApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(title: const Text('Flutter & Friends Badge Hack')),
         body: SafeArea(
