@@ -29,6 +29,7 @@ This template is set up with `package:nfc_manager`.
   - [Package](https://pub.dev/packages/nfc_manager)
   - [API documentation](https://pub.dev/documentation/nfc_manager)
   - [Example](https://github.com/okadan/flutter-nfc-manager/blob/master/example/lib/main.dart)
+  - [Tutorial](https://medium.com/@antonioneus/reading-and-writing-nfc-using-nfcmanager-in-flutter-dc5420991967)
 - `package:flutter_nfc_kit`
   - [Package](https://pub.dev/packages/flutter_nfc_kit)
   - [API documentation](https://pub.dev/documentation/flutter_nfc_kit)
