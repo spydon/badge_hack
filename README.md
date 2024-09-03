@@ -62,3 +62,11 @@ iOS 13 or later is required as are the following permissions:
   <key>NFCReaderUsageDescription</key>
   <string>Read from NFC Tags</string>
   ```
+
+- Add "Near Field Communication Tag Reading" in XCode
+  - Open your Runner.xcodeproj and click on: `Signing & Capabilities`
+  - Click `+ Capability`
+  - add "Near Field Communication Tag Reading"
+  - Make sure you're using a paid developer account as iOS requires it for this feature.
+
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/708f9e2e-7210-4712-8575-270d70172bed">
