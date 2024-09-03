@@ -26,11 +26,11 @@ Choose one of the following packages, or others if you know of one.
 This template is set up with `package:nfc_manager`.
 
 - `package:nfc_manager`
-  - [Package](https://pub.dev/package/nfc_manager)
+  - [Package](https://pub.dev/packages/nfc_manager)
   - [API documentation](https://pub.dev/documentation/nfc_manager)
   - [Example](https://github.com/okadan/flutter-nfc-manager/blob/master/example/lib/main.dart)
 - `package:flutter_nfc_kit`
-  - [Package](https://pub.dev/package/flutter_nfc_kit)
+  - [Package](https://pub.dev/packages/flutter_nfc_kit)
   - [API documentation](https://pub.dev/documentation/flutter_nfc_kit)
   - [Example](https://github.com/nfcim/flutter_nfc_kit/blob/master/example/lib/main.dart)
 
