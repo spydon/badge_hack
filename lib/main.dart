@@ -20,14 +20,15 @@ class BadgeHackApp extends StatefulWidget {
 }
 
 class BadgeHackAppState extends State<BadgeHackApp> {
-  ValueNotifier<Object?> result = ValueNotifier(null);
+  ValueNotifier<Object?> result = ValueNotifier<Object?>(null);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Flutter & Friends Badge Hack')),
-        body: SafeArea(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: FutureBuilder<bool>(
               future: NfcManager.instance.isAvailable(),
@@ -40,7 +41,14 @@ class BadgeHackAppState extends State<BadgeHackApp> {
                 }
                 return Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    ValueListenableBuilder(
+                      valueListenable: result,
+                      builder: (context, Object? value, _) => Text(
+                        value?.toString() ?? '',
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: _tagRead,
                       child: const Text('Read tag'),
