@@ -32,11 +32,14 @@ class BadgeHackAppState extends State<BadgeHackApp> {
             child: FutureBuilder<bool>(
               future: NfcManager.instance.isAvailable(),
               builder: (context, availableSnapshot) {
-                if (availableSnapshot.data ?? false) {
-                  return const Text('NFC is unavailable or inaccessible. \n'
-                      'Verify you followed the setup instructions in the README.');
+                if (availableSnapshot.data != true) {
+                  return const Text(
+                    'NFC is unavailable or inaccessible. \n'
+                    'Verify you followed the setup instructions in the README.',
+                  );
                 }
                 return Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     ElevatedButton(
                       onPressed: _tagRead,
