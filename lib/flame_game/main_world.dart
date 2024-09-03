@@ -1,3 +1,4 @@
+import 'package:badge_hack/constants.dart';
 import 'package:badge_hack/flame_game/components/blob.dart';
 import 'package:badge_hack/flame_game/components/spike.dart';
 import 'package:badge_hack/flame_game/main_game.dart';
@@ -60,6 +61,8 @@ class MainWorld extends World with HasGameReference<MainGame>, HasCollisionDetec
     _timeAlive = 0;
     blob.reset();
     blob.position = _initialPlayerPosition;
+
+    game.overlays.remove(Constants.gameOverOverlayKey);
 
     // We need to re-generate the Random object with the same key to ensure we have
     // a deterministic sequence of random numbers when re-generating the spikes on the same level.

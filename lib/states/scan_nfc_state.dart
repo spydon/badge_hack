@@ -49,6 +49,8 @@ class _ScanNfcStateState extends State<ScanNfcState> {
                     Constants.nfcArgumentKey: _scannedTag!,
                   },
                 );
+
+                setState(() => _scannedTag = null);
               },
               child: const Icon(Icons.arrow_forward),
             )

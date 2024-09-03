@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:badge_hack/constants.dart';
 import 'package:badge_hack/flame_game/components/spike.dart';
+import 'package:badge_hack/flame_game/main_game.dart';
 import 'package:badge_hack/flame_game/managers/sprite_manager.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-class Blob extends SpriteComponent with CollisionCallbacks {
+class Blob extends SpriteComponent with CollisionCallbacks, HasGameReference<MainGame> {
   late int _timeSinceLastGyroEvent = DateTime.now().microsecondsSinceEpoch;
 
   bool _isAlive = true;
@@ -38,8 +40,9 @@ class Blob extends SpriteComponent with CollisionCallbacks {
 
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
-    if (other is Spike) {
+    if (other is Spike && _isAlive) {
       _isAlive = false;
+      game.overlays.add(Constants.gameOverOverlayKey);
     }
 
     super.onCollision(points, other);
