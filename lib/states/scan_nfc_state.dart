@@ -1,4 +1,5 @@
 import 'package:badge_hack/constants.dart';
+import 'package:badge_hack/global_vars.dart';
 import 'package:badge_hack/nfc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -40,6 +41,7 @@ class _ScanNfcStateState extends State<ScanNfcState> {
       floatingActionButton: _scannedTag != null
           ? FloatingActionButton(
               onPressed: () {
+                GlobalVars.regenerateRandomFromNfcHash(_scannedTag!.handle);
                 Navigator.pushNamed(
                   context,
                   '/game',

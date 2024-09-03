@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   nfc_manager: ^3.5.0
   flame: ^1.19.0
+  sensors_plus: ^6.0.1
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -21,3 +22,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
