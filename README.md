@@ -2,6 +2,13 @@
 
 Welcome to the Flutter & Friends 2024 badge hack!
 
+Use your imagination to hack around with the provided NFC tags,
+creating novel apps and games or expanding on existing ones.
+
+Write to them, read from them, learn from them, and more.
+The sky is the limits to what you'll be able to create with
+your new friends from Flutter & Friends!
+
 **Find some inspiration:**
 
 [![Find some inspiration](https://i.ytimg.com/vi/3cqamQYBiSA/sddefault.jpg)](https://www.youtube.com/watch?v=3cqamQYBiSA)
