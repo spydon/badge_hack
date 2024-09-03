@@ -2,7 +2,7 @@
 // You can find the original example at https://github.com/okadan/flutter-nfc-manager/blob/master/example/lib/main.dart.
 // Which is licensed under MIT license found at https://github.com/okadan/flutter-nfc-manager/blob/master/LICENSE.
 
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -21,6 +21,7 @@ class BadgeHackApp extends StatefulWidget {
 
 class BadgeHackAppState extends State<BadgeHackApp> {
   ValueNotifier<Object?> result = ValueNotifier<Object?>(null);
+  final textFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,35 @@ class BadgeHackAppState extends State<BadgeHackApp> {
                       child: const Text('Read tag'),
                     ),
                     ElevatedButton(
-                      onPressed: _ndefWrite,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    controller: textFieldController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter URI',
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (textFieldController.text.isNotEmpty) {
+                                        _ndefWrite(textFieldController.text);
+                                      }
+                                    },
+                                    child: const Text('Submit'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                       child: const Text('Write to tag'),
                     ),
                   ],
@@ -69,12 +98,21 @@ class BadgeHackAppState extends State<BadgeHackApp> {
 
   void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-      result.value = tag.data;
+      final ndef = Ndef.from(tag);
+      if (ndef != null) {
+        final data = await ndef.read();
+        result.value = data.records.map((r) {
+          if (r.typeNameFormat == NdefTypeNameFormat.nfcWellknown) {
+            return utf8.decode(r.payload);
+          }
+          return 'Unhandled record type: ${r.typeNameFormat}';
+        }).join(', ');
+      }
       NfcManager.instance.stopSession();
     });
   }
 
-  void _ndefWrite() {
+  void _ndefWrite(String uri) {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       final ndef = Ndef.from(tag);
       if (ndef == null || !ndef.isWritable) {
@@ -84,17 +122,7 @@ class BadgeHackAppState extends State<BadgeHackApp> {
       }
 
       final message = NdefMessage([
-        NdefRecord.createText('Hello World!'),
-        NdefRecord.createUri(Uri.https('flutter.dev')),
-        NdefRecord.createMime(
-          'text/plain',
-          Uint8List.fromList('Hello'.codeUnits),
-        ),
-        NdefRecord.createExternal(
-          'com.example',
-          'mytype',
-          Uint8List.fromList('mydata'.codeUnits),
-        ),
+        NdefRecord.createUri(Uri.https(uri)),
       ]);
 
       try {
