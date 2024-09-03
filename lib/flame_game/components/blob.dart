@@ -9,6 +9,9 @@ import 'package:sensors_plus/sensors_plus.dart';
 class Blob extends SpriteComponent with CollisionCallbacks {
   late int _timeSinceLastGyroEvent = DateTime.now().microsecondsSinceEpoch;
 
+  bool _isAlive = true;
+  bool get isAlive => _isAlive;
+
   Blob() : super(size: Vector2(24, 24), sprite: SpriteManager.getSprite('blob')) {
     scale = Vector2.all(3.5);
   }
@@ -36,10 +39,13 @@ class Blob extends SpriteComponent with CollisionCallbacks {
   @override
   void onCollision(Set<Vector2> points, PositionComponent other) {
     if (other is Spike) {
-      // DEATH
-      int i = 0;
+      _isAlive = false;
     }
 
     super.onCollision(points, other);
+  }
+
+  void reset() {
+    _isAlive = true;
   }
 }

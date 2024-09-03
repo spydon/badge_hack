@@ -12,7 +12,9 @@ class MainWorld extends World with HasGameReference<MainGame>, HasCollisionDetec
 
   late Blob blob = Blob()
     ..anchor = Anchor.center
-    ..position = Vector2(game.size.x / 2, 5);
+    ..position = _initialPlayerPosition;
+
+  late final Vector2 _initialPlayerPosition = Vector2(game.size.x / 2, 5);
 
   double _timeAlive = 0;
   int get score => _timeAlive.floor();
@@ -27,10 +29,14 @@ class MainWorld extends World with HasGameReference<MainGame>, HasCollisionDetec
       Rectangle.fromLTRB(0, 0, game.size.x, game.size.y * 100),
     );
 
-    _generateSpikes();
+    _clearAndGenerateSpikes();
   }
 
-  void _generateSpikes() {
+  void _clearAndGenerateSpikes() {
+    for (final spike in children.whereType<Spike>()) {
+      spike.removeFromParent();
+    }
+
     for (var i = 0; i < 50; i++) {
       final spike = Spike()
         ..anchor = Anchor.center
@@ -42,9 +48,22 @@ class MainWorld extends World with HasGameReference<MainGame>, HasCollisionDetec
 
   @override
   void update(double dt) {
-    _timeAlive += dt;
-    _scoreText.text = 'Score: $score';
+    if (blob.isAlive) {
+      _timeAlive += dt;
+      _scoreText.text = 'Score: $score';
+    }
 
     super.update(dt);
+  }
+
+  void reset() {
+    _timeAlive = 0;
+    blob.reset();
+    blob.position = _initialPlayerPosition;
+
+    // We need to re-generate the Random object with the same key to ensure we have
+    // a deterministic sequence of random numbers when re-generating the spikes on the same level.
+    GlobalVars.regenerateRandomFromSameSeed();
+    _clearAndGenerateSpikes();
   }
 }
