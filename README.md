@@ -2,12 +2,7 @@
 
 Welcome to the Flutter & Friends 2024 badge hack!
 
-## Introduction
+## Resources
 
-### Technical background
+- `package:nfc_manager` [API documentation](https://pub.dev/documentation/nfc_manager)
 
-### Project categories
-
-## Setup
-
-## Submission
